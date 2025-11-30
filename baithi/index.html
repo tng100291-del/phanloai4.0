@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Dinh Dưỡng Tươi</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f6f8; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { display: flex; gap: 20px; width: 100%; max-width: 1100px; flex-wrap: wrap; }
+        .box { background: white; padding: 20px; border-radius: 10px; flex: 1; min-width: 320px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        #webcam-container { width: 100%; background: black; min-height: 300px; display: flex; justify-content: center; align-items: center; border-radius: 8px; margin: 10px 0; overflow: hidden; }
+        canvas { width: 100%; height: auto; }
+        
+        button { padding: 10px; width: 100%; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; margin-bottom: 5px; }
+        #btn-start { background: #27ae60; }
+        #btn-pause { background: #f39c12; display: none; }
+        
+        input, select { width: 100%; padding: 10px; margin: 5px 0 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { background: #3498db; color: white; padding: 8px; text-align: left; }
+        td { padding: 8px; border-bottom: 1px solid #eee; }
+        .scroll-div { max-height: 350px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h2 style="color:#2c3e50">Tra cứu rau củ quả</h2>
+
+    <div class="container">
+        <div class="box">
+            <h3>📸  Nhận diện</h3>
+            <button id="btn-start" onclick="initCamera()">Bắt đầu Camera</button>
+            <button id="btn-pause" onclick="toggleCamera()">Tạm dừng</button>
+            <div id="status-msg" style="text-align:center; color:red; margin-top:5px;"></div>
+            
+            <div id="webcam-container">Camera Tắt</div>
+            
+            <div id="ai-result" style="text-align:center; font-size:18px; font-weight:bold; margin-top:10px;"></div>
+            <div id="ai-nutrition" style="text-align:center; color:#555;"></div>
+        </div>
+
+        <div class="box">
+            <h3>🔍 Tra Cứu & Xếp Hạng</h3>
+            <label>Tìm kiếm:</label>
+            <input type="text" id="searchIn" placeholder="Ví dụ: Ổi, Cải Kale..." list="dbList" onchange="doSearch()">
+            <datalist id="dbList"></datalist>
+
+            <label>Khối lượng: <span id="wVal" style="color:red">100</span>g</label>
+            <input type="range" id="wRange" min="10" max="500" value="100" step="10" oninput="updateWeight()">
+
+            <div id="resPanel" style="display:none; margin-top:10px;">
+                <h4 id="resName" style="text-align:center;"></h4>
+                <div class="scroll-div">
+                    <table id="nutriTable"></table>
+                </div>
+            </div>
+
+            <hr>
+            <label>🏆 Xem Top dinh dưỡng:</label>
+            <select id="sortSelect" onchange="updateRanking()"></select>
+            <div id="rankPanel" class="scroll-div" style="margin-top:5px;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
+    <script src="nutritionDB.js"></script>
+    <script src="script.js"></script>
+    <footer style="margin-top: 50px; padding: 20px; font-size: 14px; color: #555; text-align: center;">
+    © Bài dự thi khoa học kĩ thuật của **Trần Đình Trí Nguyên 12c8**
+</footer>
+</body>
+</html>
